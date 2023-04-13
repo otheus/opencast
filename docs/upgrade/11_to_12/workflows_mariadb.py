@@ -13,12 +13,14 @@ import mysql.connector
 import xml.etree.ElementTree as ET
 from datetime import datetime
 
+import os
+
 # Vars
-user = "opencast"
-password = "dbpassword"
-host = "127.0.0.1"
-port = 3306
-database = "opencast"
+user =      os.getenv("OC_DB_USER","opencast")
+password =  os.getenv("OC_DB_PASS","dbpassword")
+host =      os.getenv("OC_DB_HOST","127.0.0.1")
+port =      os.getenv("OC_DB_PORT",5432)
+database =  os.getenv("OC_DB_NAME","opencast")
 
 # Constants
 workflow_table_name = "oc_workflow"
@@ -122,7 +124,13 @@ def parse_bool(value):
 
 # Connect
 print("Creating connection to database...")
-connection = create_connection(host, port, user, password, database)
+try:
+    connection = create_connection(host, port, user, password, database)
+except Exception as e:
+    print ( f"Connection to the database failed: {repr(e)}." )
+    print ( "?? Did you remember to set OC_DB_* variables ?" )
+    raise e
+
 
 # Create new tables
 #  Currently added indexes:
