@@ -2,11 +2,11 @@ CREATE INDEX IF NOT EXISTS IX_oc_aws_asset_mapping_object_key ON oc_aws_asset_ma
 CREATE INDEX IF NOT EXISTS IX_oc_job_argument_id ON oc_job_argument (id);
 
 ALTER TABLE oc_workflow
-  MODIFY COLUMN `description` LONGTEXT DEFAULT NULL;
+  MODIFY COLUMN `description` text DEFAULT NULL;
 
 ALTER TABLE oc_workflow_operation
-  MODIFY COLUMN `description` LONGTEXT DEFAULT NULL,
-  MODIFY COLUMN `if_condition` LONGTEXT DEFAULT NULL;
+  MODIFY COLUMN `description` text DEFAULT NULL,
+  MODIFY COLUMN `if_condition` text DEFAULT NULL;
 
 ALTER TABLE oc_workflow_configuration
   DROP FOREIGN KEY IF EXISTS FK_oc_workflow_configuration_workflow_id,

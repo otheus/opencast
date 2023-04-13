@@ -68,8 +68,15 @@ def insert_parsed(sql, list_of_lists):
         data.append(tuple(item))
 
     cursor = connection.cursor()
-    cursor.executemany(sql, data)
-    connection.commit()
+    try: 
+        cursor.executemany(sql, data)
+        connection.commit()
+    except Exception as e:
+        print (f"** Failure inserting data with >> {sql}} <<")
+        print (f"   Attempted to insert :")
+        for item in data:
+            print( f"     {data}" )
+        raise e
 
 
 # XML functions
@@ -143,7 +150,7 @@ CREATE TABLE IF NOT EXISTS {workflow_table_name} (
   `creator_id` varchar(255) DEFAULT NULL,
   `date_completed` datetime DEFAULT NULL,
   `date_created` datetime DEFAULT NULL,
-  `description` varchar(255) DEFAULT NULL,
+  `description` text DEFAULT NULL,
   `mediapackage` longtext DEFAULT NULL,
   `mediapackage_id` varchar(128) DEFAULT NULL,
   `organization_id` varchar(255) DEFAULT NULL,
@@ -174,9 +181,9 @@ CREATE TABLE IF NOT EXISTS {workflow_operation_table_name} (
   `continuable` tinyint(1) DEFAULT 0,
   `completed` datetime DEFAULT NULL,
   `started` datetime DEFAULT NULL,
-  `description` varchar(255) DEFAULT NULL,
+  `description` text DEFAULT NULL,
   `exception_handler_workflow` varchar(255) DEFAULT NULL,
-  `if_condition` varchar(255) DEFAULT NULL,
+  `if_condition` text  DEFAULT NULL,
   `execution_host` varchar(255) DEFAULT NULL,
   `fail_on_error` tinyint(1) DEFAULT 0,
   `failed_attempts` int(11) DEFAULT NULL,
