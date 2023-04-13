@@ -135,7 +135,7 @@ except Exception as e:
 #  - mediaPackageId, seriesId for oc_workflow
 print("Create tables...")
 create_workflow_table = f"""
-CREATE TABLE {workflow_table_name} (
+CREATE TABLE IF NOT EXISTS {workflow_table_name} (
     id bigint PRIMARY KEY,
     creator_id character varying(255),
     date_completed timestamp without time zone,
@@ -160,7 +160,7 @@ CREATE INDEX ix_oc_workflow_series_id ON {workflow_table_name} USING btree (seri
 """
 
 create_workflow_configuration_table = f"""
-CREATE TABLE {workflow_configuration_table_name} (
+CREATE TABLE IF NOT EXISTS {workflow_configuration_table_name} (
     workflow_id bigint REFERENCES {workflow_table_name}(id),
     configuration_value text,
     configuration_key character varying(255)
@@ -168,7 +168,7 @@ CREATE TABLE {workflow_configuration_table_name} (
 """
 
 create_workflow_operation_table = f"""
-CREATE TABLE {workflow_operation_table_name} (
+CREATE TABLE IF NOT EXISTS {workflow_operation_table_name} (
     id bigint PRIMARY KEY,
     abortable boolean,
     continuable boolean,
@@ -192,7 +192,7 @@ CREATE TABLE {workflow_operation_table_name} (
 """
 
 create_workflow_operation_configuration_table = f"""
-CREATE TABLE {workflow_operation_configuration_table_name} (
+CREATE TABLE IF NOT EXISTS {workflow_operation_configuration_table_name} (
     workflow_operation_id bigint REFERENCES {workflow_operation_table_name}(id),
     configuration_value text,
     configuration_key character varying(255) NOT NULL

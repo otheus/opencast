@@ -138,7 +138,7 @@ except Exception as e:
 #  - mediaPackageId, seriesId for oc_workflow
 print("Create tables...")
 create_workflow_table = f"""
-CREATE TABLE {workflow_table_name} (
+CREATE TABLE IF NOT EXISTS {workflow_table_name} (
   `id` bigint(20) NOT NULL,
   `creator_id` varchar(255) DEFAULT NULL,
   `date_completed` datetime DEFAULT NULL,
@@ -158,7 +158,7 @@ CREATE TABLE {workflow_table_name} (
 """
 
 create_workflow_configuration_table = f"""
-CREATE TABLE {workflow_configuration_table_name} (
+CREATE TABLE IF NOT EXISTS {workflow_configuration_table_name} (
   `workflow_id` bigint(20) DEFAULT NULL,
   `configuration_value` longtext DEFAULT NULL,
   `configuration_key` varchar(255) DEFAULT NULL,
@@ -168,7 +168,7 @@ CREATE TABLE {workflow_configuration_table_name} (
 """
 
 create_workflow_operation_table = f"""
-CREATE TABLE {workflow_operation_table_name} (
+CREATE TABLE IF NOT EXISTS {workflow_operation_table_name} (
   `id` bigint(20) NOT NULL,
   `abortable` tinyint(1) DEFAULT 0,
   `continuable` tinyint(1) DEFAULT 0,
@@ -195,7 +195,7 @@ CREATE TABLE {workflow_operation_table_name} (
 """
 
 create_workflow_operation_configuration_table = f"""
-CREATE TABLE {workflow_operation_configuration_table_name} (
+CREATE TABLE IF NOT EXISTS {workflow_operation_configuration_table_name} (
   `workflow_operation_id` bigint(20) DEFAULT NULL,
   `configuration_value` longtext DEFAULT NULL,
   `configuration_key` varchar(255) NOT NULL,
